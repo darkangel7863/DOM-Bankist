@@ -7,6 +7,7 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
 const allSections = document.querySelectorAll('.section');
+const header = document.querySelector('.header');
 const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
@@ -48,7 +49,6 @@ message.classList.add('cookie-message');
 message.innerHTML =
   ' We use cookies for improved functionality and analytics.<button class="btn btn--close-cookie">Got it!</button>';
 
-const header = document.querySelector('.header');
 header.append(message);
 
 document
@@ -109,3 +109,18 @@ const handlerMover = function (e) {
 };
 nav.addEventListener('mouseover', handlerMover.bind(0.5));
 nav.addEventListener('mouseout', handlerMover.bind(1));
+
+// Sticky Navigation
+
+const navHeight = nav.getBoundingClientRect().height;
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);

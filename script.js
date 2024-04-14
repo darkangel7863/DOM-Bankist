@@ -6,6 +6,11 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+const allSections = document.querySelectorAll('.section');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 // Modal window
@@ -35,7 +40,7 @@ document.addEventListener('keydown', function (e) {
 });
 //
 
-const allSections = document.querySelectorAll('.section');
+// Cookie Message
 
 const message = document.createElement('div');
 message.classList.add('cookie-message');
@@ -56,6 +61,13 @@ message.style.backgroundColor = '#37383d';
 message.style.width = '120%';
 
 // page navigation
+document
+  .querySelector('.btn--scroll-to')
+  .addEventListener('click', function (e) {
+    const s1 = document.getElementById('section--1');
+    s1.scrollIntoView({ behavior: 'smooth' });
+  });
+
 document.querySelector('.nav__links').addEventListener('click', function (e) {
   e.preventDefault();
   if (e.target.classList.contains('nav__link')) {
@@ -65,10 +77,6 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 // Tabbed Component
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
   // Guard Clause
@@ -84,3 +92,20 @@ tabsContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+// Menu Fade Animation
+const handlerMover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+    siblings.forEach(el => {
+      if (el !== link) {
+        el.style.opacity = this;
+        logo.style.opacity = this;
+      }
+    });
+  }
+};
+nav.addEventListener('mouseover', handlerMover.bind(0.5));
+nav.addEventListener('mouseout', handlerMover.bind(1));
